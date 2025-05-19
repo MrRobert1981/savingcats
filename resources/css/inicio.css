@@ -1,0 +1,98 @@
+@font-face {
+    font-family: Juicebox;
+    src: url('../fonts/Juicebox.otf');
+}
+
+body {
+    margin: 0%;
+    padding: 0%;
+}
+
+#webHeader {
+    width: 100%;
+    background-image: url('../images/header.jpg');
+    background-size: cover;
+    padding-bottom: 9.58%;
+    /* 240:23 Aspect Ratio (divide la altura 184 entre el ancho 1920, en este caso  23:240 = 0.0958) */
+    background-position: center;
+    background-repeat: no-repeat;
+    text-align: center;
+}
+
+#webSiteTitleContainer {
+    width: 100%;
+    float: left;
+}
+
+#webSiteTitleContainer h1 {
+    margin: 0%;
+    padding: 0%;
+    font-family: Juicebox;
+    color: white;
+    font-size: 5vw;
+}
+
+#webSiteTitle {
+    text-shadow: -0.2vw -0.2vw 0 #000, 0.2vw -0.2vw 0 #000, -0.2vw 0.2vw 0 #000, 0.2vw 0.2vw 0 #000;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 32%);
+    z-index: 2;
+}
+
+#backgroundWebSiteTitle {
+    flex: auto;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0.8vw 0.8vw 1vw rgba(0, 0, 0, 0.8);
+    left: 50%;
+    transform: translate(-50%, 32%);
+}
+
+/* Nav start*/
+#divNav {
+    display: flex;
+    background-color: #E65100;
+    width: 100%;
+}
+
+nav {
+    padding: 5px;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    padding: 5px 10px;
+    display: block;
+    text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+nav ul li a:hover {
+    background-color: #FF8F00;
+    border-radius: 5px;
+}
+
+/* Nav end*/
+
+.sticky-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Opcional: Agrega sombra para visibilidad */
+  }
+  
