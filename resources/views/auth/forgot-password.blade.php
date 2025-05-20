@@ -3,7 +3,7 @@
 @section('content')
     <x-guest-layout>
         <div class="mb-4 text-sm text-gray-600">
-            {{ __('¿Ha olvidado su contraseña? No se preocupe. Indíquenos su dirección de correo electrónico y le enviaremos un enlace para restablecer la contraseña que le permitirá elegir una nueva.') }}
+            {{ __('¿Ha olvidado su contraseña? No se preocupe. Indíquenos su dirección de correo electrónico y le enviaremos un enlace que le permitirá elegir una nueva.') }}
         </div>
 
         <!-- Session Status -->

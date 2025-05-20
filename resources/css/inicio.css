@@ -36,7 +36,7 @@ body {
     text-shadow: -0.2vw -0.2vw 0 #000, 0.2vw -0.2vw 0 #000, -0.2vw 0.2vw 0 #000, 0.2vw 0.2vw 0 #000;
     position: absolute;
     left: 50%;
-    transform: translate(-50%, 13%);
+    transform: translate(-50%, 32%);
     z-index: 2;
 }
 
@@ -46,7 +46,7 @@ body {
     z-index: 1;
     text-shadow: 0.8vw 0.8vw 1vw rgba(0, 0, 0, 0.8);
     left: 50%;
-    transform: translate(-50%, 13%);
+    transform: translate(-50%, 32%);
 }
 
 /* Nav start*/
