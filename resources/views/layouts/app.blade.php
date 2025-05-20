@@ -37,6 +37,16 @@
                     <ul>
                         <li><a href="{{ url('/') }}">En adopción</a></li>
                         <li><a href="#">Adoptados</a></li>
+                        @auth
+                            @if (Auth::user()->isAdmin())
+                                <li>
+                                    <form method="POST" action="{{ url('/cats/create') }}">
+                                            @csrf
+                                            <button type="submit">Registrar gato</button>
+                                        </form>
+                                </li>
+                            @endif
+                        @endauth
                     </ul>
                     <ul>
                         @guest
