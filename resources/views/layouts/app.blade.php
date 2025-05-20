@@ -40,12 +40,12 @@
                     </ul>
                     <ul>
                         @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">Iniciar sesión</a>
+                            <li>
+                                <a href="{{ route('login') }}">Iniciar sesión</a>
                             </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">Registrarse</a>
+                            <li>
+                                <a href="{{ route('register') }}">Registrarse</a>
                             </li>
                         @endguest
                         @auth
