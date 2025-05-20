@@ -11,27 +11,46 @@
         </div>
     @endguest
     <div class="container my-4">
-        <div class="row">
-            @for ($i = 1; $i <= 14; $i++)
-                <div class="col-6 col-md-4 col-lg-3 col-xl-2 mb-4 d-flex flex-column align-items-center">
-                    <div class="ratio ratio-1x1 w-100">
-                        <img src="https://images.unsplash.com/photo-1703783049515-867d492baa81?q=80&w=2047&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                            alt="Imagen {{ $i }}" class="img-fluid rounded">
-                    </div>
-                    <button class="btn btn-primary mt-2 w-100">
-                        @auth
-                            @if (Auth::user()->isAdmin())
-                                Editar
-                            @else
-                                Adoptar
+        @if (empty($cats) || $cats->isEmpty())
+            <p class="text-center text-muted">No hay gatos para mostrar.</p>
+        @else
+            <div class="row">
+                @foreach ($cats as $cat)
+                    <div class="col-6 col-md-4 col-lg-3 col-xl-2 mb-4 d-flex flex-column align-items-center">
+                        <p class="fw-bold text-primary fs-5 mb-1">{{ $cat->name }}</p>
+                        <div class="ratio ratio-1x1 w-100">
+                            <img src="{{ asset('storage/' . $cat->image_path) }}" alt="Imagen de un gato"
+                                class="img-fluid rounded">
+                        </div>
+                        @if ($are_adopted)
+                            @if ($cat->adoption_date)
+                                <p class="text-muted small mb-0">
+                                    {{ $cat->sex === 'female' ? 'Adoptada' : 'Adoptado' }}
+                                    ({{ \Carbon\Carbon::parse($cat->adoption_date)->format('d/m/Y') }})
+                                </p>
                             @endif
-                        @endauth
-                        @guest
-                            Adoptar
-                        @endguest
-                    </button>
-                </div>
-            @endfor
-        </div>
+                        @else
+                            <button class="btn btn-primary mt-2 w-100">
+                                @auth
+                                    @if (Auth::user()->isAdmin())
+                                        Editar
+                                    @else
+                                        Adoptar
+                                    @endif
+                                @endauth
+                                @guest
+                                    Adoptar
+                                @endguest
+                            </button>
+                        @endif
+
+
+                    </div>
+                @endforeach
+            </div>
+        @endif
+
+
+
     </div>
 @endsection

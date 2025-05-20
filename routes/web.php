@@ -4,9 +4,9 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CatController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [CatController::class, 'index'])->name('cats.not_adopted');
+
+Route::get('/cats/adopted', [CatController::class, 'indexAdopted'])->name('cats.adopted');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

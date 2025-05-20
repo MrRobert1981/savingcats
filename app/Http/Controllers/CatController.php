@@ -12,7 +12,18 @@ class CatController extends Controller
      */
     public function index()
     {
-        //
+        // Solo gatos no adoptados
+        $cats = Cat::where('is_adopted', false)->get();
+        $are_adopted = false;
+        return view('welcome', compact('cats', 'are_adopted'));
+    }
+
+    public function indexAdopted()
+    {
+        // Solo gatos adoptados
+        $cats = Cat::where('is_adopted', true)->get();
+        $are_adopted = true;
+        return view('welcome', compact('cats', 'are_adopted'));
     }
 
     /**
@@ -53,7 +64,7 @@ class CatController extends Controller
         $file = $request->file('image_path');
         $extension = $file->getClientOriginalExtension();
         $filename = $cat->id . '.' . $extension;
-        $path = $file->storeAs('public/images/cats', $filename);
+        $path = $file->storeAs('images/cats', $filename, 'public');
 
         // Actualizar la ruta de la imagen en la base de datos
         $cat->update([

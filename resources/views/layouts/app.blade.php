@@ -36,7 +36,7 @@
                 <nav>
                     <ul>
                         <li><a href="{{ url('/') }}">En adopción</a></li>
-                        <li><a href="#">Adoptados</a></li>
+                        <li><a href="{{ url('/cats/adopted') }}">Adoptados</a></li>
                         @auth
                             @if (Auth::user()->isAdmin())
                                 <li>

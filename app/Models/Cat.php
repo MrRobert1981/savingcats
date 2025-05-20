@@ -13,6 +13,7 @@ class Cat extends Model
         'is_adopted',
         'image_path',
         'owner_id',
+        'adoption_date'
     ];
     public function owner()
     {
