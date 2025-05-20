@@ -7,11 +7,25 @@
     <title>Saving Cats</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @vite('resources/css/inicio.css')
+
+    <script>
+        function ajustarEspaciado() {
+            const header = document.getElementById('header');
+            const mainContent = document.getElementById('mainContent');
+
+            const alturaHeader = header.offsetHeight;
+            mainContent.style.marginTop = alturaHeader + 'px';
+        }
+
+        // Ajusta al cargar y si cambian tamaños (como en un resize)
+        window.addEventListener('load', ajustarEspaciado);
+        window.addEventListener('resize', ajustarEspaciado);
+    </script>
 </head>
 
 <body>
     <header>
-        <div class="sticky-header">
+        <div class="sticky-header" id="header">
             <div id="webHeader">
                 <div id="webSiteTitleContainer">
                     <h1 id="webSiteTitle">Saving cats</h1>
@@ -48,7 +62,7 @@
         </div>
     </header>
 
-    <main>
+    <main id="mainContent">
         @yield('content') <!-- Aquí va el contenido de cada página -->
     </main>
 
