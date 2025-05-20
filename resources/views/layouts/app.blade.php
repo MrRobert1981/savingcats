@@ -35,7 +35,7 @@
             <div id="divNav">
                 <nav>
                     <ul>
-                        <li><a href="#">En adopción</a></li>
+                        <li><a href="{{ url('/') }}">En adopción</a></li>
                         <li><a href="#">Adoptados</a></li>
                     </ul>
                     <ul>
