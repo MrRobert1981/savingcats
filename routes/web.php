@@ -20,5 +20,9 @@ Route::middleware('auth')->group(function () {
 
 Route::post('/cats/create', [CatController::class, 'create']);
 Route::post('/cats/store', [CatController::class, 'store']);
+Route::post('/cats/edit', [CatController::class, 'edit']);
+Route::post('/cats/update', [CatController::class, 'update']);
+Route::post('/cats/guestAdoption', [CatController::class, 'guestAdoption']);
+
 
 require __DIR__.'/auth.php';

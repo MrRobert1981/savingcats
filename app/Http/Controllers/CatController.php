@@ -31,7 +31,10 @@ class CatController extends Controller
      */
     public function create()
     {
-        return view('register-or-update-cat');
+        $windowTitle = "Registrar un nuevo gato";
+        $submitButtonText = "Registrar";
+        $isNew = true;
+        return view('register-or-update-cat', compact('windowTitle', 'submitButtonText', 'isNew'));
     }
 
     /**
@@ -72,8 +75,7 @@ class CatController extends Controller
         ]);
     }
 
-    // Redireccionar o responder como prefieras
-    //return redirect()->route('cats.index')->with('success', 'Cat created successfully.');
+    return redirect()->route('cats.not_adopted')->with('success', 'Gato registrado correctamente.');
 }
 
     /**
@@ -87,17 +89,57 @@ class CatController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Cat $cat)
+    public function edit(Request $request)
     {
-        //
+        $windowTitle = "Editar un gato";
+        $submitButtonText = "Actualizar";
+        $isNew = false;
+        $cat = Cat::findOrFail($request->input('id'));
+        return view('register-or-update-cat', compact('windowTitle', 'submitButtonText', 'isNew', 'cat'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Cat $cat)
+    public function update(Request $request)
     {
-        //
+    $validated = $request->validate([
+    'name' => 'required|string|max:255',
+    'date_of_birth' => 'required|date|before_or_equal:today',
+    'sex' => 'required|in:male,female',
+    'image_path' => 'nullable|image|mimes:jpg,jpeg|max:2048'
+    ]);
+
+    $cat = Cat::findOrFail($request->input('id'));
+
+    $changes = false;
+    foreach ($validated as $key => $value) {
+        if ($key === 'image_path') {
+            continue;
+        }
+
+        if ($cat->$key != $value) {
+            $changes = true;
+            break;
+        }
+    }
+
+    if ($changes) {
+    $cat->update(collect($validated)->except('image_path')->toArray());
+    }
+
+    if ($request->hasFile('image_path')) {
+        $file = $request->file('image_path');
+        $extension = $file->getClientOriginalExtension();
+        $filename = $cat->id . '.' . $extension;
+        $path = $file->storeAs('images/cats', $filename, 'public');
+
+        $cat->update([
+            'image_path' => 'images/cats/' . $filename,
+        ]);
+    }
+        
+    return redirect()->route('cats.not_adopted')->with('success', 'Gato actualizado correctamente.');
     }
 
     /**
@@ -106,5 +148,9 @@ class CatController extends Controller
     public function destroy(Cat $cat)
     {
         //
+    }
+    public function guestAdoption()
+    {
+    return redirect()->route('cats.not_adopted')->with('info', 'Para adoptar un gato debes registrarte o iniciar sesión');
     }
 }

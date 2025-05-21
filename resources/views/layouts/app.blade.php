@@ -41,9 +41,9 @@
                             @if (Auth::user()->isAdmin())
                                 <li>
                                     <form method="POST" action="{{ url('/cats/create') }}">
-                                            @csrf
-                                            <button type="submit">Registrar gato</button>
-                                        </form>
+                                        @csrf
+                                        <button type="submit">Registrar gato</button>
+                                    </form>
                                 </li>
                             @endif
                         @endauth
@@ -80,6 +80,40 @@
         <!-- Aquí tu pie fijo -->
         <p>© 2025 Mi Aplicación</p>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        @if (session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: '¡Éxito!',
+                text: '{{ session('success') }}',
+                confirmButtonColor: '#3085d6'
+            });
+        @endif
+
+        @if (session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: '{{ session('error') }}',
+                confirmButtonColor: '#d33'
+            });
+        @endif
+
+
+        @if (session('info'))
+            Swal.fire({
+                icon: 'info',
+                title: 'Información',
+                text: @json(session('info')),
+                confirmButtonText: 'Entendido',
+                confirmButtonColor: '#3085d6'
+            });
+        @endif
+    </script>
+
 </body>
 
 </html>

@@ -30,18 +30,30 @@
                                 </p>
                             @endif
                         @else
-                            <button class="btn btn-primary mt-2 w-100">
-                                @auth
-                                    @if (Auth::user()->isAdmin())
-                                        Editar
-                                    @else
-                                        Adoptar
-                                    @endif
-                                @endauth
-                                @guest
-                                    Adoptar
-                                @endguest
-                            </button>
+                            @auth
+                                @if (Auth::user()->isAdmin())
+                                    <form action="{{ url('/cats/edit') }}" method="POST" enctype="multipart/form-data"
+                                        style="width: 100%;">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{ $cat->id }}">
+                                        <button type="submit" class="btn btn-primary mt-2 w-100">Editar</button>
+                                    </form>
+                                @else
+                                    <form action="{{ url('/cats/edit') }}" method="POST" enctype="multipart/form-data"
+                                        style="width: 100%;">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{ $cat->id }}">
+                                        <button type="submit" class="btn btn-primary mt-2 w-100">Adoptar</button>
+                                    </form>
+                                @endif
+                            @endauth
+                            @guest
+                                <form action="{{ url('/cats/guestAdoption') }}" method="POST" enctype="multipart/form-data"
+                                    style="width: 100%;">
+                                    @csrf
+                                    <button type="submit" class="btn btn-primary mt-2 w-100">Adoptar</button>
+                                </form>
+                            @endguest
                         @endif
 
 
