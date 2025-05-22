@@ -115,6 +115,18 @@
                 confirmButtonColor: '#3085d6'
             });
         @endif
+
+        @if (session('warning'))
+            Swal.fire({
+                icon: 'warning',
+                title: 'Advertencia',
+                text: @json(session('warning')),
+                confirmButtonText: 'Entendido',
+                confirmButtonColor: '#f0ad4e' // un color naranja típico de advertencia
+            });
+        @endif
+
+
     </script>
 
 </body>

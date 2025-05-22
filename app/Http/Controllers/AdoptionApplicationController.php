@@ -64,7 +64,7 @@ class AdoptionApplicationController extends Controller
         foreach ($pendingApplications as $application) {
             if ($application->cat_id == $validated['cat_id']) {
                 return redirect()->route('cats.not_adopted')
-                    ->with('info', 'No es posible solicitar dos veces la adopción del mismo 🐈‍');
+                    ->with('warning', 'No es posible solicitar dos veces la adopción del mismo 🐈‍');
             }
         }
 
