@@ -56,6 +56,19 @@ class AdoptionApplicationController extends Controller
             'contact_phone' => 'required|string|max:20',
         ]);
 
+        //Comprobar que el usuario no tenga una solicitud pendiente del gato que quiere adoptar para evitar duplicidades en las solicitudes
+        $pendingApplications = AdoptionApplication::where('user_id', $validated['user_id'])
+            ->where('state', 'pending')
+            ->get();
+
+        foreach ($pendingApplications as $application) {
+            if ($application->cat_id == $validated['cat_id']) {
+                return redirect()->route('cats.not_adopted')
+                    ->with('info', 'No es posible solicitar dos veces la adopción del mismo 🐈‍');
+            }
+        }
+
+
         // Crear solicitud de adopción
         $application = AdoptionApplication::create([
             'user_id' => $validated['user_id'],
