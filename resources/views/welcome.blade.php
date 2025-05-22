@@ -1,15 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @auth
-        <div style="height: 20px;">
-            <span class="text-sm text-gray-700">Hola, {{ Auth::user()->name }}</span>
-        </div>
-    @endauth
-    @guest
-        <div style="height: 20px;">
-        </div>
-    @endguest
+    
     <div class="container my-4">
         @if (empty($cats) || $cats->isEmpty())
             <p class="text-center text-muted">No hay gatos para mostrar.</p>
@@ -19,8 +11,7 @@
                     <div class="col-6 col-md-4 col-lg-3 col-xl-2 mb-4 d-flex flex-column align-items-center">
                         <p class="fw-bold text-primary fs-5 mb-1">{{ $cat->name }}</p>
                         <div class="ratio ratio-1x1 w-100">
-                            <img src="{{ asset('storage/' . $cat->image_path) }}" alt="Imagen de un gato"
-                                class="img-fluid rounded">
+                            <img src="{{ asset('storage/' . $cat->image_path) }}" alt="Imagen de un gato" class="img-fluid rounded">
                         </div>
                         @if ($are_adopted)
                             @if ($cat->adoption_date)
@@ -32,15 +23,13 @@
                         @else
                             @auth
                                 @if (Auth::user()->isAdmin())
-                                    <form action="{{ url('/cats/edit') }}" method="POST" enctype="multipart/form-data"
-                                        style="width: 100%;">
+                                    <form action="{{ url('/cats/edit') }}" method="POST" enctype="multipart/form-data" style="width: 100%;">
                                         @csrf
                                         <input type="hidden" name="id" value="{{ $cat->id }}">
                                         <button type="submit" class="btn btn-primary mt-2 w-100">Editar</button>
                                     </form>
                                 @else
-                                    <form action="{{ url('/cats/edit') }}" method="POST" enctype="multipart/form-data"
-                                        style="width: 100%;">
+                                    <form action="{{ url('/cats/show') }}" method="POST" enctype="multipart/form-data" style="width: 100%;">
                                         @csrf
                                         <input type="hidden" name="id" value="{{ $cat->id }}">
                                         <button type="submit" class="btn btn-primary mt-2 w-100">Adoptar</button>

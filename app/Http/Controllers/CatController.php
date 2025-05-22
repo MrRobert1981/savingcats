@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cat;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class CatController extends Controller
 {
@@ -81,10 +82,52 @@ class CatController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Cat $cat)
+    public function show(Request $request)
     {
-        //
+        $cat = Cat::findOrFail($request->input('id'));
+
+        $birthDate = Carbon::parse($cat->date_of_birth);
+        $now = Carbon::now();
+
+        if ($birthDate->isToday()) {
+            $ageString = 'Recién nacido';
+        } else {
+            $years = (int)$birthDate->diffInYears($now);
+            $birthDate = $birthDate->addYears($years);
+
+            $months = (int)$birthDate->diffInMonths($now);
+            $birthDate = $birthDate->addMonths($months);
+
+            $weeks = (int)$birthDate->diffInWeeks($now);
+            $birthDate = $birthDate->addWeeks($weeks);
+
+            $days = (int)$birthDate->diffInDays($now);
+
+            if ($years > 0) {
+                $ageString = $years . ' año' . ($years > 1 ? 's' : '');
+                if ($months > 0) {
+                    $ageString .= ' y ' . $months . ' mes' . ($months > 1 ? 'es' : '');
+                }
+            } elseif ($months > 0) {
+                $ageString = $months . ' mes' . ($months > 1 ? 'es' : '');
+                if ($weeks > 0) {
+                    $ageString .= ' y ' . $weeks . ' semana' . ($weeks > 1 ? 's' : '');
+                }
+            } elseif ($weeks > 0) {
+                $ageString = $weeks . ' semana' . ($weeks > 1 ? 's' : '');
+                if ($days > 0) {
+                   $ageString .= ' y ' . $days . ' día' . ($days > 1 ? 's' : '');
+                }
+            } else {
+                $ageString = $days . ' día' . ($days > 1 ? 's' : '');
+            }
+        }
+
+        $windowTitle = "Solicitud de adopción";
+        $submitButtonText = "Enviar";
+        return view('cat-adoption', compact('cat', 'ageString','windowTitle','submitButtonText'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -153,4 +196,5 @@ class CatController extends Controller
     {
     return redirect()->route('cats.not_adopted')->with('info', 'Para adoptar un gato debes registrarte o iniciar sesión');
     }
+  
 }

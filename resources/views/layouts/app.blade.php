@@ -38,6 +38,7 @@
                         <li><a href="{{ url('/') }}">En adopción</a></li>
                         <li><a href="{{ url('/cats/adopted') }}">Adoptados</a></li>
                         @auth
+                            <li><a href="{{ url('/adoption-application/index') }}">Solicitudes</a></li>
                             @if (Auth::user()->isAdmin())
                                 <li>
                                     <form method="POST" action="{{ url('/cats/create') }}">
@@ -60,6 +61,9 @@
                         @endguest
                         @auth
                             <li>
+                                <a href="" class="no-hover">Hola, {{ explode(' ', Auth::user()->name)[0] }}</a>
+                            </li>
+                            <li>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <button type="submit">Cerrar sesión</button>
@@ -76,9 +80,8 @@
         @yield('content') <!-- Aquí va el contenido de cada página -->
     </main>
 
-    <footer>
-        <!-- Aquí tu pie fijo -->
-        <p>© 2025 Mi Aplicación</p>
+    <footer class="bg-corporate-orange text-white text-center py-3">
+        © Saving Cats - Todos los derechos reservados
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
