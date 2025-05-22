@@ -14,44 +14,47 @@
                         @if ($isNew)
                             <form action="{{ url('/cats/store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
-                            @else
+                        @else
                                 <form action="{{ url('/cats/update') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <input type="hidden" name="id" value="{{ $cat->id }}">
-                        @endif
+                            @endif
 
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Nombre</label>
-                            <input type="text" name="name" id="name" class="form-control"
-                                value="{{ !$isNew ? $cat->name : '' }}" required>
-                        </div>
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Nombre</label>
+                                    <input type="text" name="name" id="name" class="form-control"
+                                        value="{{ !$isNew ? $cat->name : '' }}" required>
+                                </div>
 
-                        <div class="mb-3">
-                            <label for="date_of_birth" class="form-label">Fecha de nacimiento</label>
-                            <input type="date" name="date_of_birth" id="date_of_birth" class="form-control" value="{{ !$isNew ? $cat->date_of_birth : '' }}" required>
-                        </div>
+                                <div class="mb-3">
+                                    <label for="date_of_birth" class="form-label">Fecha de nacimiento</label>
+                                    <input type="date" name="date_of_birth" id="date_of_birth" class="form-control"
+                                        value="{{ !$isNew ? $cat->date_of_birth : '' }}" max="{{ \Carbon\Carbon::now()->toDateString() }}" required>
+                            </div>
 
-                        <div class="mb-3">
-                            <label for="sex" class="form-label">Sexo</label>
-                            <select name="sex" id="sex" class="form-select" required>
-                                <option value="male" {{ !$isNew && $cat->sex === 'male' ? 'selected' : '' }}>Macho
-                                </option>
-                                <option value="female" {{ !$isNew && $cat->sex === 'female' ? 'selected' : '' }}>Hembra
-                                </option>
-                            </select>
-                        </div>
+                            <div class=" mb-3">
+                                    <label for="sex" class="form-label">Sexo</label>
+                                    <select name="sex" id="sex" class="form-select" required>
+                                        <option value="male" {{ !$isNew && $cat->sex === 'male' ? 'selected' : '' }}>Macho
+                                        </option>
+                                        <option value="female" {{ !$isNew && $cat->sex === 'female' ? 'selected' : '' }}>
+                                            Hembra
+                                        </option>
+                                    </select>
+                                </div>
 
-                        <div class="mb-3">
-                            <label for="image_path" class="form-label">Fotografía {{ !$isNew ? ' (opcional)' : '' }}</label>
-                            <input type="file" name="image_path" id="image_path" class="form-control" accept=".jpg,.jpeg"
-                                {{ $isNew ? 'required' : '' }}>
-                        </div>
+                                <div class="mb-3">
+                                    <label for="image_path" class="form-label">Fotografía
+                                        {{ !$isNew ? ' (opcional)' : '' }}</label>
+                                    <input type="file" name="image_path" id="image_path" class="form-control"
+                                        accept=".jpg,.jpeg" {{ $isNew ? 'required' : '' }}>
+                                </div>
 
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">{{ $submitButtonText }}</button>
-                        </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">{{ $submitButtonText }}</button>
+                                </div>
 
-                        </form>
+                            </form>
                     </div>
                 </div>
 
