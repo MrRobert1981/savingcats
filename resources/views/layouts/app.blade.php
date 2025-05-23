@@ -18,9 +18,52 @@
         }
 
         // Ajusta al cargar y si cambian tamaños (como en un resize)
-        window.addEventListener('load', ajustarEspaciado);
+        window.addEventListener('load', function () {
+            ajustarEspaciado();
+
+            @if (session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Éxito!',
+                    text: '{{ session('success') }}',
+                    confirmButtonColor: '#3085d6'
+                });
+            @endif
+
+            @if (session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                    text: '{{ session('error') }}',
+                    confirmButtonColor: '#d33'
+                });
+            @endif
+
+
+            @if (session('info'))
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Información',
+                    text: @json(session('info')),
+                    confirmButtonText: 'Entendido',
+                    confirmButtonColor: '#3085d6'
+                });
+            @endif
+
+            @if (session('warning'))
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Advertencia',
+                    text: @json(session('warning')),
+                    confirmButtonText: 'Entendido',
+                    confirmButtonColor: '#f0ad4e'
+                });
+            @endif
+        });
         window.addEventListener('resize', ajustarEspaciado);
+        
     </script>
+
 </head>
 
 <body>
@@ -32,47 +75,69 @@
                     <h1 id="backgroundWebSiteTitle">Saving cats</h1>
                 </div>
             </div>
-            <div id="divNav">
-                <nav>
-                    <ul>
-                        <li><a href="{{ url('/') }}">En adopción</a></li>
-                        <li><a href="{{ url('/cats/adopted') }}">Adoptados</a></li>
-                        @auth
-                            <li><a href="{{ url('/adoption-application/index') }}">Solicitudes</a></li>
-                            @if (Auth::user()->isAdmin())
-                                <li>
-                                    <form method="POST" action="{{ url('/cats/create') }}">
+
+            <nav class="navbar navbar-expand-lg">
+                <div class="container-fluid">
+                    <!-- Botón hamburguesa a la derecha -->
+                    <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav me-auto left-links">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('/') }}">En adopción</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('/cats/adopted') }}">Adoptados</a>
+                            </li>
+                            @auth
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('/adoption-application/index') }}">Solicitudes</a>
+                                </li>
+                                @if (Auth::user()->isAdmin())
+                                    <li class="nav-item">
+                                        <form method="POST" action="{{ url('/cats/create') }}">
+                                            @csrf
+                                            <button style="display: inline;" class="nav-link" type="submit">
+                                                Registrar gato
+                                            </button>
+                                        </form>
+                                    </li>
+                                @endif
+                            @endauth
+                        </ul>
+
+                        <ul class="navbar-nav ms-auto right-links">
+                            @guest
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('login') }}">Iniciar sesión</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('register') }}">Registrarse</a>
+                                </li>
+                            @endguest
+                            @auth
+                                <li class="nav-item">
+                                    <a href="" class="nav-link no-hover">Hola, {{ explode(' ', Auth::user()->name)[0] }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <form method="POST" action="{{ route('logout') }}">
                                         @csrf
-                                        <button type="submit">Registrar gato</button>
+                                        <button style="display: inline;" class="nav-link" type="submit">
+                                            Cerrar sesión
+                                        </button>
                                     </form>
                                 </li>
-                            @endif
-                        @endauth
-                    </ul>
-                    <ul>
-                        @guest
-                            <li>
-                                <a href="{{ route('login') }}">Iniciar sesión</a>
-                            </li>
+                            @endauth
 
-                            <li>
-                                <a href="{{ route('register') }}">Registrarse</a>
-                            </li>
-                        @endguest
-                        @auth
-                            <li>
-                                <a href="" class="no-hover">Hola, {{ explode(' ', Auth::user()->name)[0] }}</a>
-                            </li>
-                            <li>
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <button type="submit">Cerrar sesión</button>
-                                </form>
-                            </li>
-                        @endauth
-                    </ul>
-                </nav>
-            </div>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
         </div>
     </header>
 
@@ -87,48 +152,13 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        @if (session('success'))
-            Swal.fire({
-                icon: 'success',
-                title: '¡Éxito!',
-                text: '{{ session('success') }}',
-                confirmButtonColor: '#3085d6'
-            });
-        @endif
-
-        @if (session('error'))
-            Swal.fire({
-                icon: 'error',
-                title: '¡Error!',
-                text: '{{ session('error') }}',
-                confirmButtonColor: '#d33'
-            });
-        @endif
-
-
-        @if (session('info'))
-            Swal.fire({
-                icon: 'info',
-                title: 'Información',
-                text: @json(session('info')),
-                confirmButtonText: 'Entendido',
-                confirmButtonColor: '#3085d6'
-            });
-        @endif
-
-        @if (session('warning'))
-            Swal.fire({
-                icon: 'warning',
-                title: 'Advertencia',
-                text: @json(session('warning')),
-                confirmButtonText: 'Entendido',
-                confirmButtonColor: '#f0ad4e' // un color naranja típico de advertencia
-            });
-        @endif
-
-
+        window.addEventListener('DOMContentLoaded', () => {
+            const navbar = document.getElementById('navbarNav');
+            if (navbar) {
+                navbar.style.visibility = 'visible';
+            }
+        });
     </script>
-
 </body>
 
 </html>

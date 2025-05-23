@@ -8,7 +8,11 @@ export default {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
     ],
-
+    safelist: [
+        'collapse',
+        'show',
+        'navbar-collapse',
+    ],
     theme: {
         extend: {
             fontFamily: {

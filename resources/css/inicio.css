@@ -12,6 +12,10 @@ body {
     flex-direction: column;
 }
 
+.bg-corporate-orange {
+    background-color: #E65100;
+}
+
 html,
 body {
     height: 100%;
@@ -63,50 +67,54 @@ main {
 }
 
 /* Nav start*/
-.bg-corporate-orange {
+
+
+.navbar {
     background-color: #E65100;
 }
 
-#divNav {
-    display: flex;
-    background-color: #E65100;
-    width: 100%;
+.navbar-toggler {
+    border: none;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
-nav {
-    padding: 5px;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
 
-nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: space-around;
+.nav-link {
+    color: white !important;
+    padding: 8px 12px;
+    transition: background-color 0.3s ease;
 }
 
-nav ul li {
-    display: inline;
-}
-
-nav ul li a,
-nav ul li button {
-    text-decoration: none;
-    color: rgb(255, 255, 255);
-    padding: 5px 10px;
-    display: block;
-    text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-}
-
-nav ul li a:hover:not(.no-hover),
-nav ul li button:hover {
+.nav-link:hover {
     background-color: #FF8F00;
     border-radius: 5px;
 }
 
+@media (max-width: 991.98px) {
+    .navbar-nav {
+        width: 100%;
+        text-align: right;
+    }
+
+    .navbar-nav.right-links {
+        order: -1;
+    }
+
+    .navbar-nav.left-links {
+        order: 1;
+    }
+}
+
+a.no-hover {
+    background-color: transparent;
+    border-radius: 0;
+    cursor: default;
+    pointer-events: none;
+}
 
 /* Nav end*/
 
@@ -118,11 +126,4 @@ nav ul li button:hover {
     z-index: 1000;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
     /* Opcional: Agrega sombra para visibilidad */
-}
-
-a.no-hover {
-    background-color: transparent;
-    border-radius: 0;
-    cursor: default;
-    pointer-events: none;
 }
