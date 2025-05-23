@@ -6,31 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Saving Cats</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @vite('resources/css/inicio.css')
-
-    <style>
-        .text-primary {
-            color: #178B6B !important;
-        }
-
-        .btn-primary {
-    --bs-btn-color: #fff;
-    --bs-btn-bg: #178B6B;
-    --bs-btn-border-color: #178B6B;
-    --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #13765A;
-    --bs-btn-hover-border-color: #116D54;
-    --bs-btn-focus-shadow-rgb: 23,139,107;
-    --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #116D54;
-    --bs-btn-active-border-color: #0F644E;
-    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    --bs-btn-disabled-color: #fff;
-    --bs-btn-disabled-bg: #0d6efd;
-    --bs-btn-disabled-border-color: #0d6efd;
-}
-
-    </style>
+    @vite('resources/css/style.css')
 
     <script>
         function ajustarEspaciado() {
