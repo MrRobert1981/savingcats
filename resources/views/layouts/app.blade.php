@@ -70,7 +70,7 @@
 </head>
 
 <body>
-    
+
     <header>
         <div class="sticky-header" id="header">
             <div id="webHeader">
@@ -154,9 +154,10 @@
         @yield('content') <!-- Aquí va el contenido de cada página -->
     </main>
 
-    <footer class="bg-corporate-orange text-white text-center py-3">
+    <footer class="bg-corporate-orange text-white text-center py-3 mt-5 text-shadow">
         © Saving Cats - Todos los derechos reservados
     </footer>
+
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

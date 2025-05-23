@@ -3,8 +3,19 @@
 @section('content')
     <div style="height: 20px;"></div>
     <div class="container">
+
+
+
         <div class="row justify-content-center">
             <div class="col-md-6">
+                <div class="d-flex justify-content-center mb-4">
+                    @if (!$isNew)
+                        <div class="ratio ratio-1x1 w-50">
+                            <img src="{{ asset('storage/' . $cat->image_path) }}" alt="Imagen de un gato"
+                                class="img-fluid rounded">
+                        </div>
+                    @endif
+                </div>
 
                 <div class="card shadow">
                     <div class="card-header text-center">
@@ -29,10 +40,11 @@
                                 <div class="mb-3">
                                     <label for="date_of_birth" class="form-label">Fecha de nacimiento</label>
                                     <input type="date" name="date_of_birth" id="date_of_birth" class="form-control"
-                                        value="{{ !$isNew ? $cat->date_of_birth : '' }}" max="{{ \Carbon\Carbon::now()->toDateString() }}" required>
-                            </div>
+                                        value="{{ !$isNew ? $cat->date_of_birth : '' }}"
+                                        max="{{ \Carbon\Carbon::now()->toDateString() }}" required>
+                                </div>
 
-                            <div class=" mb-3">
+                                <div class=" mb-3">
                                     <label for="sex" class="form-label">Sexo</label>
                                     <select name="sex" id="sex" class="form-select" required>
                                         <option value="male" {{ !$isNew && $cat->sex === 'male' ? 'selected' : '' }}>Macho
