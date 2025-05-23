@@ -3,6 +3,12 @@
     src: url('../fonts/Juicebox.otf');
 }
 
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
 body {
     margin: 0%;
     padding: 0%;
@@ -10,19 +16,16 @@ body {
 
     display: flex;
     flex-direction: column;
-}
-
-.bg-corporate-orange {
-    background-color: #E65100;
-}
-
-html,
-body {
-    height: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
 main {
     flex: 1;
+}
+
+.bg-corporate-orange {
+    background-color: #E65100;
 }
 
 #webHeader {
