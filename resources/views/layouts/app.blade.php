@@ -7,6 +7,8 @@
     <title>Saving Cats</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @vite('resources/css/style.css')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
 
     <script>
         function ajustarEspaciado() {
@@ -68,6 +70,7 @@
 </head>
 
 <body>
+    
     <header>
         <div class="sticky-header" id="header">
             <div id="webHeader">
@@ -79,7 +82,6 @@
 
             <nav class="navbar navbar-expand-lg">
                 <div class="container-fluid">
-                    <!-- Botón hamburguesa a la derecha -->
                     <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
                         aria-label="Toggle navigation">
@@ -89,14 +91,19 @@
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav me-auto left-links">
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/') }}">En adopción</a>
+                                <a class="nav-link {{ request()->is('/') ? 'active-nav-link' : '' }}"
+                                    href="{{ url('/') }}">En
+                                    adopción</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/cats/adopted') }}">Adoptados</a>
+                                <a class="nav-link {{ request()->is('cats/adopted') ? 'active-nav-link' : '' }}"
+                                    href="{{ url('/cats/adopted') }}">Adoptados</a>
                             </li>
+
                             @auth
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('/adoption-application/index') }}">Solicitudes</a>
+                                    <a class="nav-link {{ request()->is('adoption-application/index') ? 'active-nav-link' : '' }}"
+                                        href="{{ url('/adoption-application/index') }}">Solicitudes</a>
                                 </li>
                                 @if (Auth::user()->isAdmin())
                                     <li class="nav-item">
@@ -140,6 +147,7 @@
             </nav>
 
         </div>
+
     </header>
 
     <main id="mainContent">
@@ -159,6 +167,27 @@
                 navbar.style.visibility = 'visible';
             }
         });
+
+        function changeAction(form, newRoute, showAlert = false) {
+            form = document.getElementById(form);
+            form.action = newRoute;
+            if (showAlert) {
+                Swal.fire({
+                    title: '¿Deseas eliminar este 🐈?',
+                    text: "¡No podrás deshacer esta acción!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Sí',
+                    cancelButtonText: 'No'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            }
+        }
     </script>
 </body>
 

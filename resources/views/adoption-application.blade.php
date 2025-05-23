@@ -3,7 +3,9 @@
 @section('content')
     <div style="height: 20px;"></div>
     @if (empty($applications) || $applications->isEmpty())
-        <p class="text-center text-muted">No hay solicitudes.</p>
+        <p class="text-center text-muted fs-4 mb-5">No hay solicitudes que mostrar.</p>
+        <img src="{{ asset('storage/images/no_applicatios.png') }}" alt="No hay gatos" class="img-fluid d-block mx-auto mb-4"
+            style="max-height: 300px;">
     @else
         <div class="container">
             <div class="row justify-content-center">

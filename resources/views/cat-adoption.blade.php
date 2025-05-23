@@ -37,7 +37,7 @@
                     </div>
                     <div class="card-body">
 
-                        <form action="{{ url('/adoption-application/store') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ url('/adoption-application/store') }}" method="POST">
                             @csrf
                             <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                             <input type="hidden" name="cat_id" value="{{ $cat->id }}">
