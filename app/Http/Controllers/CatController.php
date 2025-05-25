@@ -84,7 +84,7 @@ class CatController extends Controller
      */
     public function show(Request $request)
     {
-        $cat = Cat::findOrFail($request->input('id'));
+        $cat = Cat::with('sex')->findOrFail($request->input('id'));
 
         $birthDate = Carbon::parse($cat->date_of_birth);
         $now = Carbon::now();
