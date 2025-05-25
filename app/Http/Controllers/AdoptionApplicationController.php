@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\NoticeApplicationAdoption;
+use App\Models\AdoptionStatus;
 
 
 
@@ -20,20 +21,26 @@ class AdoptionApplicationController extends Controller
 
         $user = auth()->user();
         if ($user->isAdmin()) {
-            $applications = AdoptionApplication::where('state', 'pending')
+            $applications = AdoptionApplication::whereHas('adoptionStatus', function ($query) {
+                $query->where('name', 'pending');
+            })
                 ->with(['cat', 'user'])
                 ->get();
 
+
         } else {
-            $applications = AdoptionApplication::where("user_id", $user->id)->with('cat')->get();
+            $applications = AdoptionApplication::where('user_id', $user->id)
+                ->with(['cat', 'adoptionStatus'])
+                ->get();
+
         }
 
-        $applicationStates = [
+        $applicationStatuses = [
             'pending' => 'Pendiente',
             'accepted' => 'Aceptada',
             'rejected' => 'Rechazada',
         ];
-        return view('adoption-application', compact('applications', 'applicationStates'));
+        return view('adoption-application', compact('applications', 'applicationStatuses'));
     }
 
     /**
@@ -56,9 +63,12 @@ class AdoptionApplicationController extends Controller
             'contact_phone' => 'required|string|max:20',
         ]);
 
-        //Comprobar que el usuario no tenga una solicitud pendiente del gato que quiere adoptar para evitar duplicidades en las solicitudes
+        //Comprobación de que el usuario no tenga una solicitud pendiente del gato que quiere adoptar para evitar duplicidades en las solicitudes
         $pendingApplications = AdoptionApplication::where('user_id', $validated['user_id'])
-            ->where('state', 'pending')
+            ->whereHas('adoptionStatus', function ($query) {
+                $query->where('name', 'pending');
+            })
+            ->with('adoptionStatus')
             ->get();
 
         foreach ($pendingApplications as $application) {
@@ -75,7 +85,7 @@ class AdoptionApplicationController extends Controller
             'cat_id' => $validated['cat_id'],
             'contact_phone' => $validated['contact_phone'],
             'date_application' => now(),
-            'state' => 'pending', // Estado inicial
+            'status_id' => AdoptionStatus::where('name', 'pending')->firstOrFail()->id,
         ]);
 
         return redirect('/adoption-application/index')->with('success', 'Solicitud de adopción enviada correctamente.');
@@ -103,24 +113,25 @@ class AdoptionApplicationController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'state' => 'required|in:accepted,rejected',
+            'adoptionStatus' => 'required|in:accepted,rejected',
         ]);
 
         $adoptionApplication = AdoptionApplication::with(['user', 'cat'])->findOrFail($id);
-        $adoptionApplication->state = $request->state;
+        $status = AdoptionStatus::where('name', $request->adoptionStatus)->firstOrFail();
+        $adoptionApplication->status_id = $status->id;
         $adoptionApplication->save();
-        $applicationStates = [
+        $applicationStatuses = [
             'accepted' => 'Aceptada 🙂',
             'rejected' => 'Rechazada ☹️',
         ];
-        $translatedState = $applicationStates[$request->state];
+        $translatedStatus = $applicationStatuses[$request->adoptionStatus];
 
         $user = $adoptionApplication->user;
         $cat = $adoptionApplication->cat;
         $recipient_name = $user->name;
         $subjectText = "Tu solicitud #$adoptionApplication->id ha sido revisada";
         $title = 'Notificación de Adopción';
-        $body_message = "Tu solicitud de adopción #$adoptionApplication->id para $cat->name ha sido $translatedState.";
+        $body_message = "Tu solicitud de adopción #$adoptionApplication->id para $cat->name ha sido $translatedStatus.";
 
         // Informa al usuario del la aceptación o rechazo de su solicitud
         Mail::to($user->email)->send(new NoticeApplicationAdoption
@@ -131,7 +142,7 @@ class AdoptionApplicationController extends Controller
             $body_message
         ));
 
-        if ($request->state === 'accepted') {
+        if ($request->adoptionStatus === 'accepted') {
             $cat->is_adopted = true;
             $cat->adoption_date = Carbon::today();
             $cat->owner_id = $adoptionApplication->user_id;
@@ -139,12 +150,15 @@ class AdoptionApplicationController extends Controller
 
 
             $otherApplications = AdoptionApplication::where('cat_id', $adoptionApplication->cat_id)
-                ->where('state', 'pending')
+                ->whereHas('adoptionStatus', function ($query) {
+                    $query->where('name', 'pending');
+                })
                 ->with(['user', 'cat'])
                 ->get();
 
+            $rejectedId = AdoptionStatus::where('name', 'rejected')->value('id');
             foreach ($otherApplications as $application) {
-                $application->state = 'rejected';
+                $application->status_id = $rejectedId;
                 $application->save();
                 $user = $application->user;
                 $recipient_name = $user->name;
@@ -164,7 +178,7 @@ class AdoptionApplicationController extends Controller
         return redirect('/adoption-application/index')->with
         (
             'info',
-            "La solicitud #{$id} fue {$translatedState}."
+            "La solicitud #{$id} fue {$translatedStatus}."
         );
 
     }

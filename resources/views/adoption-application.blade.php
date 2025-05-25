@@ -45,21 +45,23 @@
                                         @csrf
                                         @method('PUT')
 
-                                        <input type="hidden" name="state" value="">
+                                        <input type="hidden" name="adoptionStatus" value="">
 
-                                        <button type="submit" class="btn btn-success" onclick="this.form.state.value='accepted'">
+                                        <button type="submit" class="btn btn-success"
+                                            onclick="this.form.adoptionStatus.value='accepted'">
                                             Aceptar
                                         </button>
 
-                                        <button type="submit" class="btn btn-danger" onclick="this.form.state.value='rejected'">
+                                        <button type="submit" class="btn btn-danger"
+                                            onclick="this.form.adoptionStatus.value='rejected'">
                                             Rechazar
                                         </button>
                                     </form>
                                 @else
                                     <p class="mb-1">
                                         <strong>Estado:</strong><span
-                                            class="badge @if($application->state === 'pending') bg-warning @elseif($application->state === 'accepted') bg-success @else bg-danger @endif">
-                                            {{ ucfirst($applicationStates[$application->state]) }} </span>
+                                            class="badge @if($application->state === 'pending') bg-warning @elseif($application->adoptionStatus->name === 'accepted') bg-success @else bg-danger @endif">
+                                            {{ ucfirst($applicationStatuses[$application->adoptionStatus->name]) }} </span>
                                     </p>
                                 @endif
                             </div>

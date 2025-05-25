@@ -13,19 +13,22 @@ class AdoptionApplication extends Model
         'user_id',
         'cat_id',
         'date_application',
-        'state',
+        'status_id',
         'contact_phone',
     ];
 
-    // Relación con el modelo User
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // Relación con el modelo Cat
     public function cat()
     {
         return $this->belongsTo(Cat::class);
+    }
+
+    public function adoptionStatus()
+    {
+        return $this->belongsTo(AdoptionStatus::class, 'status_id');
     }
 }
