@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cat;
+use App\Models\Sex;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -11,13 +12,28 @@ class CatController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Solo gatos no adoptados
-        $cats = Cat::where('is_adopted', false)->get();
+        $sexName = $request->query('sex');
+
+        $query = Cat::where('is_adopted', false);
+
+        if ($sexName === 'male' || $sexName === 'female') {
+            $sexId = Sex::where('name', $sexName)->value('id');
+
+            if ($sexId) {
+                $query->where('sex_id', $sexId);
+            }
+        }
+
+        $cats = $query->get();
+
         $are_adopted = false;
-        return view('welcome', compact('cats', 'are_adopted'));
+        $applied_sex_filter = $sexName ?? null;
+
+        return view('welcome', compact('cats', 'are_adopted', 'applied_sex_filter'));
     }
+
 
     public function indexAdopted()
     {

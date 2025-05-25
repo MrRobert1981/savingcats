@@ -8,8 +8,36 @@
             <img src="{{ asset('storage/images/no_cats.png') }}" alt="No hay gatos" class="img-fluid d-block mx-auto mb-4"
                 style="max-height: 300px;">
 
-                @else
+        @else
             <div class="row">
+
+                @if (!$are_adopted)
+                    <div class="dropdown d-flex justify-content-end">
+                        <a href="#" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="cursor:pointer;">
+                            <i class="bi bi-filter fs-1 text-primary"></i>
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="filterDropdown"
+                            onclick="event.stopPropagation();">
+                            <form id="filterForm" class="px-3">
+                                <label class="form-label fw-bold mb-2">Filtrar por Sexo</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="sex" id="male" value="male" {{ (isset($applied_sex_filter) && $applied_sex_filter === 'male') ? 'checked' : '' }} />
+                                    <label class="form-check-label" for="male">Macho</label>
+                                </div>
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="radio" name="sex" id="female" value="female" {{ (isset($applied_sex_filter) && $applied_sex_filter === 'female') ? 'checked' : '' }} />
+
+                                    <label class="form-check-label" for="female">Hembra</label>
+                                </div>
+                                <button type="button" id="clearFilter" class="btn btn-sm btn-outline-secondary w-100 mb-2">Quitar
+                                    filtro</button>
+                                <button type="submit" class="btn btn-primary w-100">Aplicar filtro</button>
+                            </form>
+                        </div>
+                    </div>
+                @endif
+
                 @foreach ($cats as $cat)
                     <div class="col-6 col-md-4 col-lg-3 col-xl-2 mb-4 d-flex flex-column align-items-center">
                         <p class="fw-bold text-primary fs-5 mb-1">{{ $cat->name }}</p>
@@ -68,7 +96,33 @@
             </div>
         @endif
 
-
-
     </div>
+
+    <script>
+        const radios = document.querySelectorAll('input[name="sex"]');
+        const form = document.getElementById('filterForm');
+
+        document.getElementById('clearFilter').addEventListener('click', function () {
+            radios.forEach(radio => radio.checked = false);
+        });
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const selected = Array.from(radios).find(r => r.checked);
+
+            const baseUrl = "{{ url('/') }}";
+            if (selected && selected.value) {
+                form.action = `${baseUrl}?sex=${selected.value}`;
+            } else {
+                form.action = baseUrl;
+            }
+
+            form.submit();
+
+            const dropdown = bootstrap.Dropdown.getInstance(document.getElementById('filterDropdown'));
+            dropdown.hide();
+        });
+    </script>
+
+
 @endsection
