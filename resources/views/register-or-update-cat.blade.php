@@ -47,9 +47,9 @@
                                 <div class=" mb-3">
                                     <label for="sex" class="form-label">Sexo</label>
                                     <select name="sex" id="sex" class="form-select" required>
-                                        <option value="male" {{ !$isNew && $cat->sex === 'male' ? 'selected' : '' }}>Macho
+                                        <option value="male" {{ !$isNew && $cat->sex->name === 'male' ? 'selected' : '' }}>Macho
                                         </option>
-                                        <option value="female" {{ !$isNew && $cat->sex === 'female' ? 'selected' : '' }}>
+                                        <option value="female" {{ !$isNew && $cat->sex->name === 'female' ? 'selected' : '' }}>
                                             Hembra
                                         </option>
                                     </select>

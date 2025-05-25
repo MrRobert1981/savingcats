@@ -64,19 +64,19 @@ class CatController extends Controller
             'name' => 'required|string|max:255',
             'date_of_birth' => 'required|date|before_or_equal:today',
             'sex' => 'required|in:male,female',
-            'image_path' => 'required|image|mimes:jpg,jpeg|max:2048',
-            'is_adopted' => 'nullable|boolean',
-            'owner_id' => 'nullable|exists:users,id',
+            'image_path' => 'required|image|mimes:jpg,jpeg|max:2048'
         ]);
 
         // Guardar los datos sin la imagen (el campo image_path se deja vacío de momento)
+        $sexId = Sex::where('name', $validated['sex'])->first();
+
         $cat = Cat::create([
             'name' => $validated['name'],
             'date_of_birth' => $validated['date_of_birth'],
-            'sex' => $validated['sex'],
-            'is_adopted' => $request->has('is_adopted'),
+            'sex_id' => $sexId ? $sexId->id : null,
+            'is_adopted' => false,
             'owner_id' => $validated['owner_id'] ?? null,
-            'image_path' => '', // se actualizará después
+            'image_path' => '',
         ]);
 
         // Subir la imagen con el ID como nombre de archivo
@@ -184,7 +184,10 @@ class CatController extends Controller
         }
 
         if ($changes) {
-            $cat->update(collect($validated)->except('image_path')->toArray());
+            $sexId = Sex::where('name', $validated['sex'])->firstOrFail()->id;
+            $dataToUpdate = collect($validated)->except(['sex', 'image_path'])->toArray();
+            $dataToUpdate['sex_id'] = $sexId;
+            $cat->update($dataToUpdate);
         }
 
         if ($request->hasFile('image_path')) {

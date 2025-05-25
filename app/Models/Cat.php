@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Cat extends Model
 {
     protected $fillable = [
+        'sex_id',
         'name',
         'date_of_birth',
-        'sex',
         'is_adopted',
+        'adoption_date',
         'image_path',
-        'owner_id',
-        'adoption_date'
+        'owner_id'
     ];
     public function owner()
     {
@@ -21,8 +21,8 @@ class Cat extends Model
     }
 
     public function sex()
-{
-    return $this->belongsTo(Sex::class);
-}
+    {
+        return $this->belongsTo(Sex::class);
+    }
 
 }
