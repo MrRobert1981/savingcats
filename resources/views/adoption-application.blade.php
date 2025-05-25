@@ -60,7 +60,7 @@
                                 @else
                                     <p class="mb-1">
                                         <strong>Estado:</strong><span
-                                            class="badge @if($application->state === 'pending') bg-warning @elseif($application->adoptionStatus->name === 'accepted') bg-success @else bg-danger @endif">
+                                            class="badge @if($application->adoptionStatus->name === 'pending') bg-warning @elseif($application->adoptionStatus->name === 'accepted') bg-success @else bg-danger @endif">
                                             {{ ucfirst($applicationStatuses[$application->adoptionStatus->name]) }} </span>
                                     </p>
                                 @endif
