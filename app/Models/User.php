@@ -47,8 +47,9 @@ class User extends Authenticatable
     }
     public function isAdmin()
     {
-        return $this->role === 'admin';
+        return $this->role->name === 'admin';
     }
+
 
     public function cats()
     {
@@ -59,4 +60,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(AdoptionApplication::class);
     }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
 }
