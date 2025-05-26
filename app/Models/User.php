@@ -49,4 +49,9 @@ class User extends Authenticatable
     {
         return $this->role === 'admin';
     }
+
+    public function cats()
+    {
+        return $this->hasMany(Cat::class, 'owner_id');
+    }
 }
