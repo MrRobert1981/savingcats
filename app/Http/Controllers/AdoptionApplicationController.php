@@ -21,17 +21,13 @@ class AdoptionApplicationController extends Controller
 
         $user = auth()->user();
         if ($user->isAdmin()) {
-            $applications = AdoptionApplication::whereHas('adoptionStatus', function ($query) {
-                $query->where('name', 'pending');
-            })
+            $pendingStatus = AdoptionStatus::where('name', 'pending')->first();
+            $applications = $pendingStatus->adoptionApplications()
                 ->with(['cat', 'user'])
                 ->get();
 
-
         } else {
-            $applications = AdoptionApplication::where('user_id', $user->id)
-                ->with(['cat', 'adoptionStatus'])
-                ->get();
+            $applications = $user->adoptionApplications;
 
         }
 
