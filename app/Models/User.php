@@ -54,4 +54,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Cat::class, 'owner_id');
     }
+
+    public function adoptionApplications()
+    {
+        return $this->hasMany(AdoptionApplication::class);
+    }
 }
