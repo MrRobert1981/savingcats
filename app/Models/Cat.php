@@ -24,5 +24,8 @@ class Cat extends Model
     {
         return $this->belongsTo(Sex::class);
     }
-
+    public function adoptionApplications()
+    {
+        return $this->hasMany(AdoptionApplication::class);
+    }
 }
