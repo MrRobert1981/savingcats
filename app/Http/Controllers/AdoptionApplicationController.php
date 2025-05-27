@@ -27,8 +27,7 @@ class AdoptionApplicationController extends Controller
                 ->get();
 
         } else {
-            $applications = $user->adoptionApplications;
-
+            $applications = $user->adoptionApplications()->with('adoptionStatus')->get();
         }
 
         $applicationStatuses = [
