@@ -48,7 +48,7 @@
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- CONTACT -->
+<!-- CONTACTO -->
 ## Contacto
 
 Mr. Robert - mrrobert.smartphone@gmail.com
