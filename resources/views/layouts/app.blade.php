@@ -109,7 +109,9 @@
                                     <li class="nav-item">
                                         <form method="POST" action="{{ url('/cats/create') }}">
                                             @csrf
-                                            <button style="display: inline;" class="nav-link" type="submit">
+                                            <button style="display: inline;"
+                                                class="nav-link {{ request()->is('cats/create') ? 'active-nav-link' : '' }}"
+                                                type="submit">
                                                 Registrar gato
                                             </button>
                                         </form>
@@ -121,10 +123,12 @@
                         <ul class="navbar-nav ms-auto right-links">
                             @guest
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">Iniciar sesión</a>
+                                    <a class="nav-link {{ request()->is('login') ? 'active-nav-link' : '' }}"
+                                        href="{{ route('login') }}">Iniciar sesión</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">Registrarse</a>
+                                    <a class="nav-link {{ request()->is('register') ? 'active-nav-link' : '' }}"
+                                        href="{{ route('register') }}">Registrarse</a>
                                 </li>
                             @endguest
                             @auth
