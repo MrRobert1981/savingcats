@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CatController;
 use App\Http\Controllers\AdoptionApplicationController;
 
+
 Route::get('/', [CatController::class, 'index'])->name('cats.not_adopted');
 
 Route::get('/cats/adopted', [CatController::class, 'indexAdopted'])->name('cats.adopted');
@@ -31,5 +32,23 @@ Route::middleware('auth')->group(function () {
 
 
 });
+
+/* use App\Models\Cat;
+Route::get('/probar-relacion-cat', function () {
+    $cat = Cat::find(6); // Cat::first()
+    dd($cat->adoptionApplications);
+}); */
+
+/* use App\Models\User;
+Route::get('/probar-relacion-user-cats', function () {
+    $user = User::find(3);
+    dd($user->cats);
+}); */
+
+/* use App\Models\User;
+Route::get('/probar-user-adoptions', function () {
+    $user = User::find(3);
+    dd($user->adoptionApplications);
+}); */
 
 require __DIR__ . '/auth.php';
