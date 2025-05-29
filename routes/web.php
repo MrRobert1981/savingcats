@@ -7,8 +7,8 @@ use App\Http\Controllers\AdoptionApplicationController;
 
 
 Route::get('/', [CatController::class, 'index'])->name('cats.not_adopted');
-
 Route::get('/cats/adopted', [CatController::class, 'indexAdopted'])->name('cats.adopted');
+Route::post('/cats/guestAdoption', [CatController::class, 'guestAdoption']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -25,7 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/cats/edit', [CatController::class, 'edit']);
     Route::post('/cats/update', [CatController::class, 'update']);
     Route::post('/cats/destroy', [CatController::class, 'destroy']);
-    Route::post('/cats/guestAdoption', [CatController::class, 'guestAdoption']);
+    
     Route::get('/adoption-application/index', [AdoptionApplicationController::class, 'index']);
     Route::put('/adoption-applications/{id}', [AdoptionApplicationController::class, 'update'])->name('adoption-applications.update');
     Route::post('/adoption-application/store', [AdoptionApplicationController::class, 'store']);
