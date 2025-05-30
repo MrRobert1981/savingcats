@@ -4,6 +4,11 @@
 /public/hot
 /public/storage
 /storage/*.key
+!/storage/app/public/images/
+!/storage/app/public/images/*.jpg
+!/storage/app/public/images/*.png
+!/storage/app/public/images/*.jpeg
+!/storage/app/public/images/*.gif
 /storage/pail
 /vendor
 .env
