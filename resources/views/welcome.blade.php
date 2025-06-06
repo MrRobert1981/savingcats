@@ -47,7 +47,7 @@
                         @if ($are_adopted)
                             @if ($cat->adoption_date)
                                 <p class="text-muted small mb-0">
-                                    {{ $cat->sex === 'female' ? 'Adoptada' : 'Adoptado' }}
+                                    {{ $cat->sex->name === 'female' ? 'Adoptada' : 'Adoptado' }}
                                     ({{ \Carbon\Carbon::parse($cat->adoption_date)->format('d/m/Y') }})
                                 </p>
                             @endif

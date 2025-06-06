@@ -6,6 +6,7 @@ use App\Models\Cat;
 use App\Models\Sex;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class CatController extends Controller
 {
@@ -38,7 +39,10 @@ class CatController extends Controller
     public function indexAdopted()
     {
         // Solo gatos adoptados
-        $cats = Cat::where('is_adopted', true)->get();
+        $cats = Cat::with('sex')
+            ->where('is_adopted', true)
+            ->get();
+
         $are_adopted = true;
         return view('welcome', compact('cats', 'are_adopted'));
     }
@@ -214,6 +218,7 @@ class CatController extends Controller
 
         if ($cat) {
             $cat->delete();
+            Storage::disk('public')->delete($cat->image_path);
             return redirect()->route('cats.not_adopted')->with('success', '🐈 eliminado correctamente.');
         } else {
             return redirect()->route('cats.not_adopted')->with('error', '🐈 no encontrado.');

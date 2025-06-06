@@ -51,4 +51,14 @@ Route::get('/probar-user-adoptions', function () {
     dd($user->adoptionApplications);
 }); */
 
+/* use App\Models\Cat;
+use Illuminate\Support\Facades\Storage;
+Route::get('/probar-borrado-fichero', function () {
+    $cat = Cat::find(18);
+    Storage::disk('public')->delete($cat->image_path);
+    dd($cat->image_path);
+}); */
+
+
+
 require __DIR__ . '/auth.php';
